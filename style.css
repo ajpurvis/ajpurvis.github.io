@@ -7,9 +7,12 @@ body {
 }
 
 .container {
-  max-width: 900px;
-  margin: 0 auto;
+  max-width: 750px;
+  margin: 2rem auto;
   padding: 2rem;
+  background: #fff;
+  color: #000;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
 h1 {
