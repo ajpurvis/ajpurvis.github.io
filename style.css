@@ -7,6 +7,12 @@ body {
   line-height: 1.6;
 }
 
+.main-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
 .fancy-line {
   width: 80px;
   height: 4px;
