@@ -54,6 +54,7 @@ h1 {
   font-size: 3rem;
   margin-bottom: 0.2rem;
   color: #00d1ff; /* unified color */
+  text-align: center;
 }
 
 h2 {
