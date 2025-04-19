@@ -1,1 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Rotational Dynamics Model</title>
+</head>
+<body>
+  <h1>Helicopter Pitch Control: PID Tuning & Response Comparison</h1>
+<div class="fancy-line"></div>
 
+<p><a href="/index.html">← Back to Home</a></p>
+
+<h2>Objective</h2>
+<p>Model a second-order pitch and roll dynamic system representative of helicopter body motion. Implement a control system using Simulink to stabilize angular response under step commands and external disturbance torques.</p>
+
+<h2>System Overview</h2>
+<ul>
+  <li><strong>Model type:</strong> Second-order linear dynamics (θ'' = M/I)</li>
+  <li><strong>Inputs:</strong> Step input (desired angle), Sine wave disturbance (wind torque)</li>
+  <li><strong>Controller:</strong> PID (Proportional, Integral, Derivative)</li>
+  <li><strong>Output:</strong> Angular position (θ)</li>
+</ul>
+
+<h2>Control Architecture</h2>
+<p>The closed-loop control system used Simulink to implement a PID controller. Error was computed as the difference between desired angle and actual angle, and fed into the PID. The controller output torque combined with a disturbance signal before entering the plant block.</p>
+
+<h2>Simulation Results</h2>
+<p>Three sets of PID gains were tested to evaluate response:</p>
+
+<table>
+  <tr>
+    <th>Test Set</th>
+    <th>P</th>
+    <th>I</th>
+    <th>D</th>
+    <th>Notes</th>
+  </tr>
+  <tr>
+    <td>A</td>
+    <td>2</td>
+    <td>0.2</td>
+    <td>0.4</td>
+    <td>Stable, slight overshoot, settles within ±1°</td>
+  </tr>
+  <tr>
+    <td>B</td>
+    <td>3</td>
+    <td>0.8</td>
+    <td>0.5</td>
+    <td>Faster rise time, some overshoot, still stable</td>
+  </tr>
+  <tr>
+    <td>C</td>
+    <td>1</td>
+    <td>0</td>
+    <td>0</td>
+    <td>Under-damped, significant steady-state error (~20°)</td>
+  </tr>
+</table>
+
+<h2>Key Takeaways</h2>
+<ul>
+  <li><strong>Proportional gain</strong> increases responsiveness but risks overshoot</li>
+  <li><strong>Integral gain</strong> removes steady-state error but can slow response</li>
+  <li><strong>Derivative gain</strong> damps oscillation and improves settling time</li>
+  <li>Without integral action, the system was unable to reject constant bias from disturbances</li>
+</ul>
+
+<h2>Deliverables</h2>
+<ul>
+  <li>Simulink model with labeled architecture</li>
+  <li>MATLAB plots comparing all three PID responses</li>
+  <li>Logged simulation data and exportable results for portfolio</li>
+</ul>
