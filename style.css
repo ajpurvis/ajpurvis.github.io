@@ -15,6 +15,11 @@ body {
   border-radius: 2px;
 }
 
+.container.wide {
+  max-width: 1100px;
+}
+
+
 /* === Layout Blocks === */
 .container {
   max-width: 750px;
