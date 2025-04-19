@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Helicopter Pitch Control – PID Tuning</title>
+</head>
+<body>
+  <h1>Helicopter Pitch Control: PID Tuning & Response Comparison</h1>
+
+  <h2>Objective</h2>
+  <p>Design, simulate, and analyze a closed-loop PID control system for helicopter pitch stabilization using Simulink, under both commanded (step) inputs and external (disturbance) torques.</p>
+
+  <h2>System Overview</h2>
+  <ul>
+    <li><strong>Plant model:</strong> Second-order pitch dynamics (θ″ = M/I)</li>
+    <li><strong>Controller:</strong> PID with tunable gains (P, I, D)</li>
+    <li><strong>Inputs:</strong> Step input (0→10°), Sine disturbance (simulated wind torque)</li>
+    <li><strong>Outputs:</strong> Pitch angle over time (degrees)</li>
+  </ul>
+
+  <h2>PID Configurations Tested</h2>
+  <table border="1" cellpadding="6">
+    <tr><th>Test Set</th><th>P</th><th>I</th><th>D</th><th>Notes</th></tr>
+    <tr><td>A</td><td>2</td><td>0.2</td><td>0.4</td><td>Stable; settled within ±1° after ~25s</td></tr>
+    <tr><td>B</td><td>3</td><td>0.8</td><td>0.5</td><td>Slight overshoot; faster response</td></tr>
+    <tr><td>C</td><td>1</td><td>0</td><td>0</td><td>Steady-state error (~20°); no I-gain</td></tr>
+  </table>
+
+  <h2>Expected Behavior</h2>
+  <table border="1" cellpadding="6">
+    <tr><th>Test Set</th><th>Gains (P/I/D)</th><th>Expected Steady-State</th><th>Expected Transient Behavior</th><th>Control Quality</th></tr>
+    <tr><td>A</td><td>2 / 0.2 / 0.4</td><td>Zero steady-state error</td><td>Moderate rise time, minor overshoot</td><td>Balanced, reliable</td></tr>
+    <tr><td>B</td><td>3 / 0.8 / 0.5</td><td>Zero steady-state error</td><td>Faster rise, slight overshoot</td><td>Aggressive but stable</td></tr>
+    <tr><td>C</td><td>1 / 0 / 0</td><td>Persistent steady-state error</td><td>Slow rise, no overshoot</td><td>Incomplete control</td></tr>
+  </table>
+
+  <h2>Why These Outcomes Were Expected</h2>
+  <p><strong>Proportional (P)</strong> provides push toward the target. Higher P gives faster correction but can overshoot.</p>
+  <p><strong>Integral (I)</strong> removes steady-state error by accumulating error over time. Without I, the system can stabilize below target under disturbance.</p>
+  <p><strong>Derivative (D)</strong> damps response and reduces overshoot by reacting to rate of error change.</p>
+  <p>The plant simulates rotational dynamics, where the input is <strong>torque</strong> (Nm), not force. This torque comes from wind acting at a distance from the rotation axis (moment = force × radius).</p>
+
+  <h2>Assets Generated</h2>
+  <ul>
+    <li>Simulink model with labeled signals</li>
+    <li>MATLAB plots overlaying multiple PID responses</li>
+    <li>Test data suitable for portfolio or PDF export</li>
+  </ul>
+</body>
+</html>
