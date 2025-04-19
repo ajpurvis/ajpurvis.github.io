@@ -1,28 +1,61 @@
+/* === Global Page Styles === */
 body {
-  font-family: Arial, sans-serif;
   margin: 0;
-  padding: 0;
-  background: #121212;
-  /* background: #0a0a0a; */
-  color: #eaeaea;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #0e0e0e;
+  color: #f2f2f2;
+  line-height: 1.6;
 }
 
+/* === Layout Blocks === */
 .container {
   max-width: 750px;
   margin: 2rem auto;
   padding: 2rem;
   background: #1e1e1e;
-  color: #000;
+  color: #f2f2f2;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
-h1 {
-  font-size: 3rem;
-  color: #00d1ff;
+header {
+  padding: 4rem 2rem;
+  text-align: center;
+  background-color: #1e1e1e;
 }
 
+footer {
+  text-align: center;
+  font-size: 0.9rem;
+  padding: 1rem;
+  color: #777;
+}
+
+/* === Typography === */
+h1 {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+  color: #00d1ff; /* unified color */
+}
+
+h2 {
+  border-bottom: 2px solid #00bfff;
+  padding-bottom: 0.5rem;
+  color: #00bfff;
+}
+
+p.tagline {
+  font-size: 1.3rem;
+  color: #aaa;
+}
+
+section {
+  padding: 2rem 10%;
+  margin-bottom: 3rem;
+}
+
+/* === Links === */
 a {
-  color: #00ffae;
+  color: #00bfff;
   text-decoration: none;
 }
 
@@ -30,6 +63,20 @@ a:hover {
   text-decoration: underline;
 }
 
-section {
-  margin-bottom: 3rem;
+/* === Tables === */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+}
+
+th, td {
+  border: 1px solid #444;
+  padding: 0.75rem;
+  text-align: left;
+}
+
+th {
+  background-color: #003344;
+  color: #00ffff;
 }
