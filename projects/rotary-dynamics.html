@@ -22,10 +22,19 @@
 
       <h2>Introduction</h2>
       <p>
-        This project evaluates helicopter pitch response using classic control theory. The goal was to build hands-on test engineering skills and simulate real-world challenges such as wind rejection. The pitch model was reduced to a second-order equation:
+        This equation represents angular acceleration (θ″) resulting from net torque (<em>M</em>) applied to a rigid body, divided by its moment of inertia (<em>I</em>). It is derived from Newton’s Second Law for rotational systems:
       </p>
-      <p><code>θ″ = M / I</code></p>
+      
+      <div style="text-align: center; font-size: 1.25rem; margin: 1rem 0;">
+        <em>Στ</em> = <em>I</em> · θ″
+      </div>
+      
       <p>
+        Rearranging for θ″ gives the plant equation used in simulation. In the Simulink model, this was implemented using two integrators in series to simulate angular velocity and position from torque input. This forms the core dynamic system, or "plant," which receives both controller output and external disturbances (e.g., simulated wind torque).
+      </p>
+      <p>
+        Although the system focuses on the pitch axis, this modeling approach generalizes to roll and yaw with appropriate inertia values and control strategies. Simulink and MATLAB were used throughout to build, test, and tune the system for stability under varying control configurations.
+      </p>
         The system was analyzed in the pitch axis, though results can generalize to roll. Simulink and MATLAB were used to simulate, tune, and visualize the system response.
       </p>
 
