@@ -24,12 +24,9 @@ body {
 
 /* === Layout Blocks === */
 .container {
-  max-width: 750px;
+  max-width: 1100px;
   margin: 0 auto;
-  padding: 3rem 0;
-  background: #1e1e1e;
-  color: #f2f2f2;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  padding: 2rem 2rem;
 }
 
 header {
@@ -65,7 +62,7 @@ p.tagline {
 }
 
 section {
-  padding: 2rem 10%;
+  padding: 0%;
   margin-bottom: 3rem;
 }
 
