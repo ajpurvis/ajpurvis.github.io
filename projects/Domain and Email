@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Custom Domain & Email Setup – AJ Purvis</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <main class="main-wrapper">
+    <div class="container">
+
+      <h1>Custom Domain & Email Setup</h1>
+      <div class="fancy-line"></div>
+
+      <p><a href="/index.html">← Back to Home</a></p>
+
+      <h2>Objective</h2>
+      <p>
+        Establish a professional web presence and email identity by deploying a personal site to a custom domain using GitHub Pages, and configuring custom email with Zoho Mail for direct contact and outreach.
+      </p>
+
+      <h2>Deployment Overview</h2>
+      <ul>
+        <li><strong>Domain:</strong> Registered <code>ajpurvis.dev</code> via Google Domains</li>
+        <li><strong>Web Hosting:</strong> GitHub Pages with custom domain integration</li>
+        <li><strong>Email Service:</strong> Zoho Mail (free plan with DNS authentication)</li>
+        <li><strong>Site Type:</strong> Static HTML with project portfolio and contact info</li>
+      </ul>
+
+      <h2>Setup Process</h2>
+      <ol>
+        <li>Created a GitHub repository: <code>ajpurvis.github.io</code></li>
+        <li>Linked domain through GitHub Pages settings and added <code>CNAME</code> file</li>
+        <li>Configured DNS records (A, CNAME, TXT) to verify domain with Zoho Mail</li>
+        <li>Created email alias <code>aero@ajpurvis.dev</code> for professional communication</li>
+      </ol>
+
+      <h2>Value Added</h2>
+      <ul>
+        <li>Branded digital identity for aerospace engineering outreach</li>
+        <li>Simple, zero-cost deployment pipeline using GitHub Pages</li>
+        <li>Custom email increases credibility when networking or applying for roles</li>
+        <li>Scalable base for future portfolio expansion</li>
+      </ul>
+
+      <h2>Tools Used</h2>
+      <ul>
+        <li>GitHub Pages</li>
+        <li>Zoho Mail (DNS configuration)</li>
+        <li>Google Domains (or equivalent registrar)</li>
+        <li>Custom CSS + HTML</li>
+      </ul>
+
+    </div>
+  </main>
+</body>
+</html>
