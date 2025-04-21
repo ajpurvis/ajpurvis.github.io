@@ -22,13 +22,20 @@
 
       <h2>Introduction</h2>
       <p>
-        This equation represents angular acceleration (θ″) resulting from net torque (<em>M</em>) applied to a rigid body, divided by its moment of inertia (<em>I</em>). It is derived from Newton’s Second Law for rotational systems:
+        This equation represents angular acceleration (θ″) resulting from net torque (<em>\∑τ</em>) applied to a rigid body, divided by its moment of inertia (<em>I</em>). It is derived from Newton’s Second Law for rotational systems:
       </p>
             <p class="equation">
-      <div style="text-align: center; font-size: 1.25rem; margin: 1rem 0;">
-        <em>∑τ</em> = <em>I</em> · θ″<br>
-        ⇒ θ″ = <em>M</em> / <em>I</em>
-       </div>
+             <div style="text-align: center; font-size: 1.25rem; margin: 1rem 0;">
+          <em>∑τ</em> = <em>I</em> · θ″
+        </div>
+        
+        <p style="text-align: center; font-style: italic;">
+          Here, <em>τ</em> is the net torque acting on the body. In this simulation, we assume it to be a single applied torque <em>M</em> for simplicity.
+        </p>
+        
+        <div style="text-align: center; font-size: 1.25rem; margin: 1rem 0;">
+          ⇒ θ″ = <em>M</em> / <em>I</em>
+        </div>
           <p>
             To simulate realistic helicopter pitch dynamics, the moment of inertia (I) and total torque must be determined.
           </p>
