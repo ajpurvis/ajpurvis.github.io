@@ -89,13 +89,21 @@
             This adjusted value of I accounts for the shifted rotation axis and can be used in the Simulink model by setting the Gain block to:
             <br>
       <div style="text-align: center; font-family: Cambria Math, Cambria, serif; font-size: 1.4rem; margin: 1rem 0;">
-            <strong>Gain = 1 / 33,928.75 ≈ 2.948 × 10⁻⁵</strong>
+             <strong>Gain</strong> = 1 / 33,928.75 kg·m² ≈ 2.948 × 10<sup>−5</sup> (1/kg·m²)
       </div>
                  
           <p>
             This gain scales net torque into angular acceleration (θ″), feeding into the two integrator blocks that output angular velocity and position. This estimation improves physical accuracy while keeping the simulation light and adaptable.
           </p>
 
+
+      
+      <p>
+        INSERT SIMULINK BLOCK PICTURES
+      </p>
+
+
+      
           </p>
           <p>
             Rearranging for θ″ gives the plant equation used in simulation. In the Simulink model, this was implemented using two integrators in series to simulate angular velocity and position from torque input. This forms the core dynamic system, or "plant," which receives both controller output and external disturbances (e.g., simulated wind torque).
