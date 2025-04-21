@@ -26,10 +26,9 @@
       </p>
             <p class="equation">
       <div style="text-align: center; font-size: 1.25rem; margin: 1rem 0;">
-        
-        <em>Στ</em> = <em>I</em> · θ″
-         <i>θ</i><sup>″</sup> = <i>M</i> / <i>I</i>
-      </div>
+        <em>∑τ</em> = <em>I</em> · θ″<br>
+        ⇒ θ″ = <em>M</em> / <em>I</em>
+       </div>
           <p>
             To simulate realistic helicopter pitch dynamics, the moment of inertia (I) and total torque must be determined.
           </p>
@@ -62,6 +61,27 @@
             This theorem is especially helpful when the axis of rotation does not pass through the object’s center of mass — 
             a common scenario in rotary systems.
           </p>
+          <p>
+            Using the Parallel Axis Theorem, we estimate the helicopter's pitch-axis moment of inertia about an axis offset from the center of mass:
+            <br><br>
+            <strong>I = I<sub>com</sub> + M · h²</strong>
+            <br><br>
+            Assuming:
+            <ul>
+              <li>I<sub>com</sub> ≈ 28,000 kg·m² (estimated for the AH-1 Cobra)</li>
+              <li>M = 2,635 kg (empty mass)</li>
+              <li>h = 1.5 m (approximate offset distance from center of mass)</li>
+            </ul>
+            We compute:
+            <br>
+            I = 28,000 + 2,635 × (1.5)² = 28,000 + 5,928.75 = <strong>33,928.75 kg·m²</strong>
+            <br><br>
+            This adjusted value of I accounts for the shifted rotation axis and can be used in the Simulink model by setting the Gain block to:
+            <br>
+            <strong>Gain = 1 / 33,928.75 ≈ 2.948 × 10⁻⁵</strong>
+          </p>
+
+      
         <em>Στ</em> = <em>I</em> · θ″
          <i>θ</i><sup>″</sup> = <i>M</i> / <i>I</i>
       AH-1 Cobra 
@@ -102,15 +122,15 @@
             This gain scales net torque into angular acceleration (θ″), feeding into the two integrator blocks that output angular velocity and position. This estimation improves physical accuracy while keeping the simulation light and adaptable.
           </p>
 
-      </p>
-      <p>
-        Rearranging for θ″ gives the plant equation used in simulation. In the Simulink model, this was implemented using two integrators in series to simulate angular velocity and position from torque input. This forms the core dynamic system, or "plant," which receives both controller output and external disturbances (e.g., simulated wind torque).
-      </p>
-      <p>
-        Although the system focuses on the pitch axis, this modeling approach generalizes to roll and yaw with appropriate inertia values and control strategies. Simulink and MATLAB were used throughout to build, test, and tune the system for stability under varying control configurations.
-      </p>
-        The system was analyzed in the pitch axis, though results can generalize to roll. Simulink and MATLAB were used to simulate, tune, and visualize the system response.
-      </p>
+          </p>
+          <p>
+            Rearranging for θ″ gives the plant equation used in simulation. In the Simulink model, this was implemented using two integrators in series to simulate angular velocity and position from torque input. This forms the core dynamic system, or "plant," which receives both controller output and external disturbances (e.g., simulated wind torque).
+          </p>
+          <p>
+            Although the system focuses on the pitch axis, this modeling approach generalizes to roll and yaw with appropriate inertia values and control strategies. Simulink and MATLAB were used throughout to build, test, and tune the system for stability under varying control configurations.
+          </p>
+            The system was analyzed in the pitch axis, though results can generalize to roll. Simulink and MATLAB were used to simulate, tune, and visualize the system response.
+          </p>
 
       <h2>Test Description</h2>
       <ul>
