@@ -24,11 +24,85 @@
       <p>
         This equation represents angular acceleration (θ″) resulting from net torque (<em>M</em>) applied to a rigid body, divided by its moment of inertia (<em>I</em>). It is derived from Newton’s Second Law for rotational systems:
       </p>
-      
+            <p class="equation">
       <div style="text-align: center; font-size: 1.25rem; margin: 1rem 0;">
+        
         <em>Στ</em> = <em>I</em> · θ″
+         <i>θ</i><sup>″</sup> = <i>M</i> / <i>I</i>
       </div>
-      
+          <p>
+            To simulate realistic helicopter pitch dynamics, the moment of inertia (I) and total torque must be determined.
+          </p>
+          <p>
+          For this simulation the torques will be a summation of a step input representing pilot control, and a sinusoidal input representing disturbances
+          </p>
+          <p>
+            To estimated the moment of inertia (<em>I<sub>yy</sub></em>) we must use the equation for the moment of inertia for a point mass:
+          </p>
+            <p>
+            The Parallel Axis Theorem can be used to determine the moment of inertia <em>I</em> of a rigid body 
+            about any axis, given its moment of inertia <em>I<sub>com</sub></em> about a parallel axis through its center of mass.
+            The relationship is defined by:
+          </p>
+          
+          <div style="text-align: center; font-family: 'Cambria Math', Cambria, serif; font-size: 1.5rem; margin: 1.5rem 0;">
+            I = I<sub>com</sub> + M · h²
+          </div>
+          <p>
+            Where:
+          </p>
+          <ul>
+            <li><strong>I</strong> — moment of inertia about the new (offset) axis</li>
+            <li><strong>I<sub>com</sub></strong> — moment of inertia about the axis through the center of mass</li>
+            <li><strong>M</strong> — total mass of the body</li>
+            <li><strong>h</strong> — perpendicular distance between the two parallel axes</li>
+          </ul>
+          
+          <p>
+            This theorem is especially helpful when the axis of rotation does not pass through the object’s center of mass — 
+            a common scenario in rotary systems.
+          </p>
+        <em>Στ</em> = <em>I</em> · θ″
+         <i>θ</i><sup>″</sup> = <i>M</i> / <i>I</i>
+      AH-1 Cobra 
+            using a simplified physical model. Treating the fuselage as a uniform rod, we applied the standard formula:
+          </p>
+          
+          <div style="text-align: center; font-family: Cambria Math, Cambria, serif; font-size: 1.4rem; margin: 1rem 0;">
+            I = (1/12) · m · L²
+          </div>
+          
+          <p>
+            With an empty mass of ~2,635 kg and fuselage length of 13.5 m:
+          </p>
+          
+          <ul>
+            <li><strong>m</strong> = 2,635 kg</li>
+            <li><strong>L</strong> = 13.5 m</li>
+            <li><strong>I</strong> ≈ 40,000 kg·m² (uniform rod assumption)</li>
+          </ul>
+          
+          <p>
+            Since real helicopters concentrate mass toward the center, we scaled the value down by 30% to reflect a more realistic distribution:
+          </p>
+          
+          <div style="text-align: center; font-family: Cambria Math, Cambria, serif; font-size: 1.25rem; margin: 1rem 0;">
+            I<sub>est</sub> = 0.7 × 40,000 = 28,000 kg·m²
+          </div>
+          
+          <p>
+            In Simulink, the moment of inertia is implemented via a <strong>Gain block</strong> representing 1/I:
+          </p>
+          
+          <div style="text-align: center; font-family: Cambria Math, Cambria, serif; font-size: 1.5rem; margin: 1rem 0;">
+            Gain = 1 / (0.7 × 40,000) = 1 / 28,000 ≈ 3.57×10<sup>−5</sup>
+          </div>
+          
+          <p>
+            This gain scales net torque into angular acceleration (θ″), feeding into the two integrator blocks that output angular velocity and position. This estimation improves physical accuracy while keeping the simulation light and adaptable.
+          </p>
+
+      </p>
       <p>
         Rearranging for θ″ gives the plant equation used in simulation. In the Simulink model, this was implemented using two integrators in series to simulate angular velocity and position from torque input. This forms the core dynamic system, or "plant," which receives both controller output and external disturbances (e.g., simulated wind torque).
       </p>
