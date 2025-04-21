@@ -70,8 +70,9 @@
           </p>
           <p>
             Using the Parallel Axis Theorem, we estimate the helicopter's pitch-axis moment of inertia about an axis offset from the center of mass:
-            <br><br>
+            <div style="text-align: center; font-family: Cambria Math, Cambria, serif; font-size: 1.4rem; margin: 1rem 0;">
             <strong>I = I<sub>com</sub> + M · h²</strong>
+            </div>
             <br><br>
             Assuming:
             <ul>
@@ -81,50 +82,16 @@
             </ul>
             We compute:
             <br>
+            <div style="text-align: center; font-family: Cambria Math, Cambria, serif; font-size: 1.4rem; margin: 1rem 0;">
             I = 28,000 + 2,635 × (1.5)² = 28,000 + 5,928.75 = <strong>33,928.75 kg·m²</strong>
+            </div>
             <br><br>
             This adjusted value of I accounts for the shifted rotation axis and can be used in the Simulink model by setting the Gain block to:
             <br>
+      <div style="text-align: center; font-family: Cambria Math, Cambria, serif; font-size: 1.4rem; margin: 1rem 0;">
             <strong>Gain = 1 / 33,928.75 ≈ 2.948 × 10⁻⁵</strong>
-          </p>
-
-      
-        <em>Στ</em> = <em>I</em> · θ″
-         <i>θ</i><sup>″</sup> = <i>M</i> / <i>I</i>
-      AH-1 Cobra 
-            using a simplified physical model. Treating the fuselage as a uniform rod, we applied the standard formula:
-          </p>
-          
-          <div style="text-align: center; font-family: Cambria Math, Cambria, serif; font-size: 1.4rem; margin: 1rem 0;">
-            I = (1/12) · m · L²
-          </div>
-          
-          <p>
-            With an empty mass of ~2,635 kg and fuselage length of 13.5 m:
-          </p>
-          
-          <ul>
-            <li><strong>m</strong> = 2,635 kg</li>
-            <li><strong>L</strong> = 13.5 m</li>
-            <li><strong>I</strong> ≈ 40,000 kg·m² (uniform rod assumption)</li>
-          </ul>
-          
-          <p>
-            Since real helicopters concentrate mass toward the center, we scaled the value down by 30% to reflect a more realistic distribution:
-          </p>
-          
-          <div style="text-align: center; font-family: Cambria Math, Cambria, serif; font-size: 1.25rem; margin: 1rem 0;">
-            I<sub>est</sub> = 0.7 × 40,000 = 28,000 kg·m²
-          </div>
-          
-          <p>
-            In Simulink, the moment of inertia is implemented via a <strong>Gain block</strong> representing 1/I:
-          </p>
-          
-          <div style="text-align: center; font-family: Cambria Math, Cambria, serif; font-size: 1.5rem; margin: 1rem 0;">
-            Gain = 1 / (0.7 × 40,000) = 1 / 28,000 ≈ 3.57×10<sup>−5</sup>
-          </div>
-          
+      </div>
+                 
           <p>
             This gain scales net torque into angular acceleration (θ″), feeding into the two integrator blocks that output angular velocity and position. This estimation improves physical accuracy while keeping the simulation light and adaptable.
           </p>
