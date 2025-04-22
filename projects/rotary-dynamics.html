@@ -33,8 +33,16 @@
           Here, <em>τ</em> is the net torque acting on the body. In this simulation, we assume it to be a single applied torque <em>M</em> for simplicity.
         </p>
         
-        <div style="text-align: center; font-size: 1.25rem; margin: 1rem 0;">
-          ⇒ θ″ = <em>M</em> / <em>I</em>
+      <div style="text-align: center; font-size: 1.25rem; margin: 1rem 0;">
+  <p><em>∑τ</em> = <em>M</em> − <em>D</em>·<em>θ′</em> − <em>K</em>·<em>θ</em></p>
+</div>
+<p style="text-align: center; font-style: italic;">
+  Here, the net torque <em>τ</em> is composed of an input torque <em>M</em> from the pilot (via control surfaces), counteracted by damping torque <em>Dθ′</em> and stiffness torque <em>Kθ</em>. This models the aircraft's rotational response more realistically.
+</p>
+<div style="text-align: center; font-size: 1.25rem; margin: 1rem 0;">
+  ⇒ <em>θ″</em> = ( <em>M</em> − <em>D</em>·<em>θ′</em> − <em>K</em>·<em>θ</em> ) / <em>I</em>
+</div>
+
         </div>
           <p>
             To simulate realistic helicopter pitch dynamics, the moment of inertia (I) and total torque must be determined.
@@ -52,18 +60,9 @@
           </p>
           
           <div style="text-align: center; font-size: 1.25rem; margin: 1rem 0;">
-            I = I<sub>com</sub> + M · h²
+            I = I<sub>com</sub> + m · h²
           </div>
-          <p>
-            Where:
-          </p>
-          <ul>
-            <li><strong>I</strong> — moment of inertia about the new (offset) axis</li>
-            <li><strong>I<sub>com</sub></strong> — moment of inertia about the axis through the center of mass</li>
-            <li><strong>M</strong> — total mass of the body</li>
-            <li><strong>h</strong> — perpendicular distance between the two parallel axes</li>
-          </ul>
-          
+
           <p>
             This theorem is especially helpful when the axis of rotation does not pass through the object’s center of mass — 
             a common scenario in rotary systems.
@@ -80,7 +79,7 @@
               <li>M = 2,635 kg (empty mass)</li>
               <li>h = 1.5 m (approximate offset distance from center of mass)</li>
             </ul>
-            We compute:
+            We  can calculate:
             <br>
             <div style="text-align: center; font-family: Cambria Math, Cambria, serif; font-size: 1.4rem; margin: 1rem 0;">
             I = 28,000 + 2,635 × (1.5)² = 28,000 + 5,928.75 = <strong>33,928.75 kg·m²</strong>
