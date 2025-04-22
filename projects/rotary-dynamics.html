@@ -1,175 +1,406 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Rotary Dynamics</title>
-  <link rel="stylesheet" href="/style.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rotary Dynamics</title>
+    <link rel="stylesheet" href="/style.css" />
 </head>
+
 <body>
-  <main class="main-wrapper">
-    <div class="container">
+    <main class="main-wrapper">
+        <div class="container">
 
-      <h1>Helicopter Pitch Response: Closed-Loop Control & Dynamics Simulation</h1>
-      <div class="fancy-line"></div>
+            <h1>Helicopter Pitch Response: Closed-Loop Control & Dynamics Simulation</h1>
+            <div class="fancy-line"></div>
 
-      <p><a href="/index.html">← Back to Home</a></p>
+            <p><a href="/index.html">← Back to Home</a></p>
 
-      <h2>Executive Summary</h2>
-      <p>
-        Modeled a second-order pitch dynamic system for an AH-1 Cobra using Simulink. Designed and tested PID controllers to stabilize pitch angle under command inputs and simulated wind disturbance. Compared multiple control configurations and visualized their stability, transient behavior, and steady-state error. Demonstrated the importance of proportional, integral, and derivative contributions.
-      </p>
-
-      <h2>Introduction</h2>
-      <p>
-        This equation represents angular acceleration (θ″) resulting from net torque (<em>\∑τ</em>) applied to a rigid body, divided by its moment of inertia (<em>I</em>). It is derived from Newton’s Second Law for rotational systems:
-      </p>
-            <p class="equation">
-             <div style="text-align: center; font-size: 1.25rem; margin: 1rem 0;">
-          <em>∑τ</em> = <em>I</em> · θ″
-        </div>
-        
-        <p style="text-align: center; font-style: italic;">
-          Here, <em>τ</em> is the net torque acting on the body. In this simulation, we assume it to be a single applied torque <em>M</em> for simplicity.
-        </p>
-        
-      <div style="text-align: center; font-size: 1.25rem; margin: 1rem 0;">
-  <p><em>∑τ</em> = <em>M</em> − <em>D</em>·<em>θ′</em> − <em>K</em>·<em>θ</em></p>
-</div>
-<p style="text-align: center; font-style: italic;">
-  Here, the net torque <em>τ</em> is composed of an input torque <em>M</em> from the pilot (via control surfaces), counteracted by damping torque <em>Dθ′</em> and stiffness torque <em>Kθ</em>. This models the aircraft's rotational response more realistically.
-</p>
-<div style="text-align: center; font-size: 1.25rem; margin: 1rem 0;">
-  ⇒ <em>θ″</em> = ( <em>M</em> − <em>D</em>·<em>θ′</em> − <em>K</em>·<em>θ</em> ) / <em>I</em>
-</div>
-
-        </div>
-          <p>
-            To simulate realistic helicopter pitch dynamics, the moment of inertia (I) and total torque must be determined.
-          </p>
-          <p>
-          For this simulation the torques will be a summation of a step input representing pilot control, and a sinusoidal input representing disturbances
-          </p>
-          <p>
-            To estimated the moment of inertia (<em>I<sub>yy</sub></em>) we must use the equation for the moment of inertia for a point mass:
-          </p>
+            <h2>Executive Summary</h2>
             <p>
-            The Parallel Axis Theorem can be used to determine the moment of inertia (I) of a rigid body 
-            about any axis, given its moment of inertia <em>I<sub>com</sub></em> about a parallel axis through its center of mass.
+                Modeled a second-order pitch dynamic system for an AH-1 Cobra using Simulink. Designed and tested PID
+                controllers to stabilize pitch angle under command inputs and simulated wind disturbance. Compared
+                multiple control configurations and visualized their stability, transient behavior, and steady-state
+                error. Demonstrated the importance of proportional, integral, and derivative contributions.
+            </p>
+
+            <h2>Introduction</h2>
+            <p>
+                This equation represents angular acceleration (θ″) resulting from net torque (<em>\∑τ</em>) applied to a
+                rigid body, divided by its moment of inertia (<em>I</em>). It is derived from Newton’s Second Law for
+                rotational systems:
+            </p>
+            <p class="equation">
+            <div style="text-align: center; font-size: 1.25rem; margin: 1rem 0;">
+                <em>∑τ</em> = <em>I</em> · θ″
+            </div>
+
+            <p style="text-align: center; font-style: italic;">
+                Here, <em>τ</em> is the net torque acting on the body. In this simulation, we assume it to be a single
+                applied torque <em>M</em> for simplicity.
+            </p>
+
+            <div style="text-align: center; font-size: 1.25rem; margin: 1rem 0;">
+                <p><em>∑τ</em> = <em>M</em> − <em>D</em>·<em>θ′</em> − <em>K</em>·<em>θ</em></p>
+            </div>
+            <div style="text-align: center; font-size: 1.25rem; margin: 1rem 0;">
+                <p><em>M</em> − <em>D</em>θ′ − <em>K</em>θ = <em>I</em>θ″</p>
+              </div>
+            <p style="text-align: center; font-style: italic;">
+                The net torque <em>τ</em> is composed of an input torque <em>M</em> from the pilot (via control
+                surfaces), counteracted by damping torque <em>Dθ′</em> and stiffness torque <em>Kθ</em>. This models the
+                aircraft's rotational response more realistically.
+            </p>
+            <div style="text-align: center; font-size: 1.25rem; margin: 1rem 0;">
+                <p>⇒ θ″ = ( <em>M</em> − <em>D</em>θ′ − <em>K</em>θ ) / <em>I</em></p>
+              </div>
+              
+              <p>
+                Now that we have solved for angular acceleration (θ″), the following variables must be determined:
+              </p>
+              
+              <ul>
+                <li><strong>M</strong> — Total applied torque from the pilot</li>
+                <li><strong>D</strong> — Damping coefficient, modeling aerodynamic resistance</li>
+                <li><strong>K</strong> — Rotational stiffness, resisting pitch angle displacement</li>
+                <li><strong>I</strong> — Moment of inertia about the pitch axis</li>
+              </ul>
+        <p>
+            The Parallel Axis Theorem can be used to determine the moment of inertia (I) of a rigid body
+            about any axis, given its moment of inertia <em>I<sub>com</sub></em> about a parallel axis through its
+            center of mass.
             The relationship is defined by:
-          </p>
-          
-          <div style="text-align: center; font-size: 1.25rem; margin: 1rem 0;">
+        </p>
+
+        <div style="text-align: center; font-size: 1.25rem; margin: 1rem 0;">
             I = I<sub>com</sub> + m · h²
-          </div>
+        </div>
 
-          <p>
-            This theorem is especially helpful when the axis of rotation does not pass through the object’s center of mass — 
+        <p>
+            This theorem is especially helpful when the axis of rotation does not pass through the object’s center of
+            mass —
             a common scenario in rotary systems.
-          </p>
-          <p>
-            Using the Parallel Axis Theorem, we estimate the helicopter's pitch-axis moment of inertia about an axis offset from the center of mass:
-            <div style="text-align: center; font-family: Cambria Math, Cambria, serif; font-size: 1.4rem; margin: 1rem 0;">
-            <strong>I = I<sub>com</sub> + M · h²</strong>
-            </div>
-            <br><br>
-            Assuming:
-            <ul>
-              <li>I<sub>com</sub> ≈ 28,000 kg·m² (estimated for the AH-1 Cobra)</li>
-              <li>M = 2,635 kg (empty mass)</li>
-              <li>h = 1.5 m (approximate offset distance from center of mass)</li>
-            </ul>
-            We  can calculate:
-            <br>
-            <div style="text-align: center; font-family: Cambria Math, Cambria, serif; font-size: 1.4rem; margin: 1rem 0;">
-            I = 28,000 + 2,635 × (1.5)² = 28,000 + 5,928.75 = <strong>33,928.75 kg·m²</strong>
-            </div>
-            <br><br>
-            This adjusted value of I accounts for the shifted rotation axis and can be used in the Simulink model by setting the Gain block to:
-            <br>
-      <div style="text-align: center; font-family: Cambria Math, Cambria, serif; font-size: 1.4rem; margin: 1rem 0;">
-             <strong>Gain</strong> = 1 / 33,928.75 kg·m² ≈ 2.948 × 10<sup>−5</sup> (1/kg·m²)
-      </div>
-                 
-          <p>
-            This gain scales net torque into angular acceleration (θ″), feeding into the two integrator blocks that output angular velocity and position. This estimation improves physical accuracy while keeping the simulation light and adaptable.
-          </p>
+        </p>
+        <p>
+        We can assume:
+        <ul>
+            <li>I<sub>com</sub> ≈ 28,000 kg·m² (estimated for the AH-1 Cobra)</li>
+            <li>m = 2,635 kg (empty mass)</li>
+            <li>h = 1.5 m (approximate offset distance from center of mass)</li>
+        </ul>
+        <p>
+            m = 2,635 kg (empty mass)
+            Light helicopters like the Robinson R44 hold around 31.6 gallons in the main fuel tank and 18.5 gallons in the auxiliary fuel tank.
+        <p>
+            <p>
+                However, inertia (<em>I</em>) can be more closely approximated. Figure 1 below gives the specifications for the AH-1G HueyCobra.
+              </p>
+              
+              <p>
+                To estimate the helicopter’s moment of inertia about the pitch axis, we assume the fuselage behaves like a uniform rod rotating about a point near the tail (offset from center of mass). Using the Parallel-Axis Theorem:
+              </p>
+              
+              <div style="text-align: center; font-size: 1.25rem; margin: 1rem 0;">
+                <em>I</em> = <em>I<sub>com</sub></em> + <em>m</em><em>h</em><sup>2</sup>
+              </div>
+              <div>
+                <p>
+                    While the empty wieght was given, a reasonable estimate can be made for the AH-1 Cobra. Light helicopters like the Robinson 
+                    R44 hold around 31.6 gallons in the main fuel tank and 18.5 gallons in the auxiliary fuel tank. Assuming an appoxiamate 35 gallons
+                    the additional 368 kg would result in a new total mass of 3003 kg.
+                </p>
+              <p>With the parameters known, the total inertial can be estimated.
+                Where:
+                <ul>
+                  <li><em>I<sub>com</sub></em> is the moment of inertia about the center of mass (assumed: <em>I<sub>com</sub></em> ≈ (1/12)ML²)</li>
+                  <li><em>M</em> is the mass of the aircraft (≈ 3003 kg)</li>
+                  <li><em>h</em> is the distance from the center of mass to the pitch axis (estimated as half fuselage length: ≈ 6.75 m)</li>
+                </ul>
+              </p>
+              <p>
+                Plugging the estimated values into the equation:
+              </p>
+              
+              <div style="text-align: center; font-size: 1.25rem; margin: 1rem 0;">
+                I = (1/12) · 3003 kg · (13.5 m)² + 3003 kg · (6.75 m)²
+              </div>
+              
+              <p>
+                ⇒ I ≈ 45,648 kg·m² + 136,676 kg·m² = <strong>182,324 kg·m²</strong>
+              </p>
+              
+              <p>
+                This value represents the total moment of inertia about the pitch axis, accounting for both the fuselage’s distribution of mass and the axis offset.
+              </p>
+              
+              <p>
+                In the Simulink model, this value is inverted and implemented as a gain (1/I) to simulate angular acceleration from net torque:
+              </p>
+              
+              <div style="text-align: center; font-size: 1.25rem; margin: 1rem 0;">
+                Gain = 1 / 182,324 ≈ 5.49 × 10<sup>−6</sup>
+              </div>
+              
+              <p>
+                This gain is used in the plant model block to compute angular acceleration (θ″) in response to control and disturbance torques.
+              </p>
+              <p>
+                With the total moment of inertia estimated, we now return to the governing equation of the plant model:
+              </p>
+              
+              <div style="text-align: center; font-size: 1.25rem; margin: 1rem 0;">
+                θ″ = (1/I) · (M − D·θ′ − K·θ)
+              </div>
+              
+              <p>
+                At this stage, only three variables remain to be defined:
+              </p>
+              
+              <ul>
+                <li><strong>M</strong> — the input torque applied by the pilot (via control surfaces or actuators)</li>
+                <li><strong>D</strong> — the damping coefficient, which accounts for rotational friction or air resistance</li>
+                <li><strong>K</strong> — the stiffness coefficient, representing the system’s tendency to return to equilibrium when displaced</li>
+              </ul>
+              
+              <p>
+                In the following section, we’ll walk through a reasonable estimation strategy for each of these parameters — grounding them in physical assumptions where possible and using iterative testing where necessary. These values will complete the plant dynamics model and allow for realistic response simulation under both step and disturbance inputs.
+              </p>
+              <p>
+                Let’s begin with the input torque <strong>M</strong>, which is the control effort generated by the pilot through cyclic input and transmitted to the rotor system. In the Simulink model, this torque originates from the output of the PID controller, which compares the desired pitch angle with the actual pitch angle and adjusts the output accordingly. Therefore, <strong>M</strong> is not a fixed value — it varies over time depending on error, controller gains, and system response.
+              </p>
+              <p>
+                Next, we estimate the damping coefficient <strong>D</strong>. This term models the resistance the helicopter experiences as it rotates — primarily due to aerodynamic drag and internal mechanical friction. While there is no directly published damping value for the AH-1 Cobra, a common approach is to assume a damping ratio (ζ) and a natural frequency (ω<sub>n</sub>), and then back-calculate <strong>D</strong> using the formula:
+              </p>
+              
+              <div style="text-align: center; font-size: 1.25rem; margin: 1rem 0;">
+                D = 2ζω<sub>n</sub> · I
+              </div>
+              
+              <p>
+                Assuming a damping ratio of 0.7 (critically damped) and a natural frequency of 2 rad/s, and using our previously calculated inertia:
+              </p>
+              
+              <div style="text-align: center; font-size: 1.25rem; margin: 1rem 0;">
+                D = 2 × 0.7 × 2 × 182,324 ≈ <strong>510,507 N·m·s/rad</strong>
+              </div>
+              
+              <p>
+                Finally, the stiffness coefficient <strong>K</strong> accounts for the restoring torque that tends to bring the aircraft back to level flight. Physically, this could result from aerodynamic effects, center-of-gravity offset, or stabilizing surfaces. For modeling purposes, <strong>K</strong> can be derived using:
+              </p>
+              
+              <div style="text-align: center; font-size: 1.25rem; margin: 1rem 0;">
+                K = ω<sub>n</sub><sup>2</sup> · I = 4 × 182,324 ≈ <strong>729,296 N·m/rad</strong>
+              </div>
+              
+              <p>
+                With <strong>M</strong> generated by the controller and <strong>D</strong> and <strong>K</strong> now defined,
+                 all variables in the plant equation have been accounted for. This completes the dynamic structure of the model,
+                  enabling the simulation to produce angular acceleration outputs that accurately reflect the helicopter's
+                   response to control inputs and external forces.
+              </p>
+              <p>
+                The software used to simulate and model the helicopter’s dynamic response is <strong>MATLAB Simulink</strong>. This platform enables time-domain modeling of control systems with visual block diagrams, allowing for modular testing, parameter tuning, and signal logging.
+              </p>
+              
+              <p>
+                <strong>Model Structure:</strong> The Simulink model is built using a second-order plant representation, incorporating angular acceleration (θ″), damping (D), and stiffness (K) to simulate pitch dynamics. Additional blocks are used to generate inputs, control response, and monitor system behavior.
+              </p>
+              
+              <p>
+                Other variables considered are the parameters of the remaining Simulink blocks. These include:
+              </p>
+              
+              <ul>
+                <li><strong>Step Input Block:</strong> Defines the pilot’s desired pitch command. Key parameters include step time, initial value (0°), and final value (e.g., 10°).</li>
+                
+                <li><strong>Sine Wave Block:</strong> Models external disturbances such as wind gusts. Parameters include amplitude (Nm), frequency (Hz), and phase.</li>
+                
+                <li><strong>PID Controller Block:</strong> Generates the control torque (M). Parameters include proportional (P), integral (I), and derivative (D) gains. Filter coefficient is optionally adjusted for derivative smoothing.</li>
+                
+                <li><strong>Gain Block (1/I):</strong> Converts net torque to angular acceleration. This gain is the inverse of the estimated moment of inertia (I).</li>
+                
+                <li><strong>Damping Gain Block (D):</strong> Multiplies angular velocity (θ′) to simulate resistive torque from air and internal friction.</li>
+                
+                <li><strong>Stiffness Gain Block (K):</strong> Multiplies angular displacement (θ) to simulate restoring torque.</li>
+                
+                <li><strong>Integrator Blocks:</strong> Two integrators are used in sequence: one to compute angular velocity from acceleration, and a second to compute angular position from velocity.</li>
+                
+                <li><strong>To Workspace Blocks:</strong> Used to log angle, time, and controller output for MATLAB-based plotting and analysis.</li>
+              </ul>
+              
+              
+              <p>
+                <strong>Model Structure:</strong> The Simulink model is built using a second-order plant representation, incorporating angular acceleration (θ″), damping (D), and stiffness (K) to simulate pitch dynamics. Additional blocks are used to generate inputs, control response, and monitor system behavior.
+              </p>
+              
+              <p>
+                Other variables considered are the parameters of the remaining Simulink blocks. These include:
+              </p>
+              <ul>
+                <li><strong>Step Input Block:</strong> Defines the pilot’s desired pitch command.
+                  <ul>
+                    <li><strong>Step time:</strong> 1 s</li>
+                    <li><strong>Initial value:</strong> 0°</li>
+                    <li><strong>Final value:</strong> 10°</li>
+                  </ul>
+                </li>
+              
+                <li><strong>Sine Wave Block:</strong> Models external disturbances such as wind gusts.
+                  <ul>
+                    <li><strong>Amplitude:</strong> 10 N·m</li>
+                    <li><strong>Frequency:</strong> 0.5 Hz</li>
+                    <li><strong>Phase:</strong> 0 rad</li>
+                  </ul>
+                </li>
+              
+                <li><strong>PID Controller Block:</strong> Generates the control torque (M) from angle error.
+                  <ul>
+                    <li><strong>Proportional gain (P):</strong> 2</li>
+                    <li><strong>Integral gain (I):</strong> 0.2</li>
+                    <li><strong>Derivative gain (D):</strong> 0.4</li>
+                    <li><strong>Filter coefficient (N):</strong> 100</li>
+                  </ul>
+                </li>
+              
+                <li><strong>Gain Block (1/I):</strong> Converts net torque to angular acceleration.
+                  <ul>
+                    <li><strong>Gain value:</strong> 5.49 × 10<sup>−6</sup> (1 / 182,324)</li>
+                  </ul>
+                </li>
+              
+                <li><strong>Damping Gain Block (D):</strong> Simulates torque opposing angular velocity.
+                  <ul>
+                    <li><strong>Gain value:</strong> 510,507 N·m·s/rad</li>
+                  </ul>
+                </li>
+              
+                <li><strong>Stiffness Gain Block (K):</strong> Simulates restoring torque from displacement.
+                  <ul>
+                    <li><strong>Gain value:</strong> 729,296 N·m/rad</li>
+                  </ul>
+                </li>
+              
+                <li><strong>Integrator Blocks:</strong> Used in sequence to compute rotational states.
+                  <ul>
+                    <li><strong>Integrator 1 (θ″ → θ′):</strong> Initial condition: 0</li>
+                    <li><strong>Integrator 2 (θ′ → θ):</strong> Initial condition: 0</li>
+                  </ul>
+                </li>
+              
+                <li><strong>To Workspace Blocks:</strong> Logs variables for post-simulation analysis.
+                  <ul>
+                    <li><strong>Logged signals:</strong> θ, θ′, time</li>
+                    <li><strong>Save format:</strong> Structure with time</li>
+                  </ul>
+                </li>
+              </ul>
+              
+              
+              
 
 
-      
-      <p>
-        INSERT SIMULINK BLOCK PICTURES
-      </p>
 
 
-      
-          </p>
-          <p>
-            Rearranging for θ″ gives the plant equation used in simulation. In the Simulink model, this was implemented using two integrators in series to simulate angular velocity and position from torque input. This forms the core dynamic system, or "plant," which receives both controller output and external disturbances (e.g., simulated wind torque).
-          </p>
-          <p>
-            Although the system focuses on the pitch axis, this modeling approach generalizes to roll and yaw with appropriate inertia values and control strategies. Simulink and MATLAB were used throughout to build, test, and tune the system for stability under varying control configurations.
-          </p>
-            The system was analyzed in the pitch axis, though results can generalize to roll. Simulink and MATLAB were used to simulate, tune, and visualize the system response.
-          </p>
 
-      <h2>Test Description</h2>
-      <ul>
-        <li><strong>Simulated Configuration:</strong> Second-order pitch system in Simulink, controlled by PID loop with optional disturbance torque input</li>
-        <li><strong>Inputs:</strong> Step command (0° to 10°), and sinusoidal wind disturbance</li>
-        <li><strong>Outputs:</strong> Pitch angle (θ) over time</li>
-        <li><strong>Test Matrix:</strong> Three PID configurations:
-          <ul>
-            <li><strong>Set A:</strong> Balanced tuning (P = 2, I = 0.2, D = 0.4)</li>
-            <li><strong>Set B:</strong> Aggressive tuning (P = 3, I = 0.8, D = 0.5)</li>
-            <li><strong>Set C:</strong> No integral (P = 1, I = 0, D = 0)</li>
-          </ul>
-        </li>
-        <li><strong>Data Logging:</strong> Simulink time series outputs visualized in MATLAB</li>
-      </ul>
+        <p>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            INSERT SIMULINK BLOCK PICTURES
+        </p>
 
-      <h2>Results & Analysis</h2>
-      <ul>
-        <li><strong>Set A (P = 2, I = 0.2, D = 0.4):</strong> Settled within ±1° by ~25 seconds; showed balanced response with minimal overshoot.</li>
-        <li><strong>Set B (P = 3, I = 0.8, D = 0.5):</strong> Faster rise time with some overshoot; still achieved steady-state within target window.</li>
-        <li><strong>Set C (P = 1, I = 0, D = 0):</strong> Persistent steady-state error (~20°); no integral action meant disturbance was not rejected.</li>
-      </ul>
-      <p>
-        A MATLAB overlay compared all three controller responses. The system’s transient and steady-state behaviors were visualized and confirmed expected theoretical effects of PID term adjustments.
-      </p>
 
-      <h2>Discussion</h2>
-      <ul>
-        <li>Proportional gain improves responsiveness but can induce overshoot.</li>
-        <li>Integral gain is essential to eliminate bias under constant torque disturbance.</li>
-        <li>Derivative gain stabilizes transient behavior and reduces oscillations.</li>
-        <li>The observed results matched classic PID controller theory and demonstrated direct control over pitch dynamics.</li>
-      </ul>
 
-      <h2>Conclusions</h2>
-      <ul>
-        <li>All test objectives were met: the pitch system was modeled, stabilized, and characterized across multiple configurations.</li>
-        <li>Simulink and MATLAB provided effective tools for rapid prototyping, testing, and visualization.</li>
-        <li>This project serves as a foundation for future work in multi-axis control or model-based design validation.</li>
-      </ul>
+        </p>
+        <p>
+            Rearranging for θ″ gives the plant equation used in simulation. In the Simulink model, this was implemented
+            using two integrators in series to simulate angular velocity and position from torque input. This forms the
+            core dynamic system, or "plant," which receives both controller output and external disturbances (e.g.,
+            simulated wind torque).
+        </p>
+        <p>
+            Although the system focuses on the pitch axis, this modeling approach generalizes to roll and yaw with
+            appropriate inertia values and control strategies. Simulink and MATLAB were used throughout to build, test,
+            and tune the system for stability under varying control configurations.
+        </p>
+        The system was analyzed in the pitch axis, though results can generalize to roll. Simulink and MATLAB were used
+        to simulate, tune, and visualize the system response.
+        </p>
 
-      <h2>Appendices</h2>
-      <ul>
-        <li>Simulink block diagram (architecture screenshot)</li>
-        <li>MATLAB script for PID overlay plot</li>
-        <li>Expanded response plots with labeled conditions</li>
-        <li>Glossary: PID terms, plant equation, disturbance explanation</li>
-      </ul>
+        <h2>Test Description</h2>
+        <ul>
+            <li><strong>Simulated Configuration:</strong> Second-order pitch system in Simulink, controlled by PID loop
+                with optional disturbance torque input</li>
+            <li><strong>Inputs:</strong> Step command (0° to 10°), and sinusoidal wind disturbance</li>
+            <li><strong>Outputs:</strong> Pitch angle (θ) over time</li>
+            <li><strong>Test Matrix:</strong> Three PID configurations:
+                <ul>
+                    <li><strong>Set A:</strong> Balanced tuning (P = 2, I = 0.2, D = 0.4)</li>
+                    <li><strong>Set B:</strong> Aggressive tuning (P = 3, I = 0.8, D = 0.5)</li>
+                    <li><strong>Set C:</strong> No integral (P = 1, I = 0, D = 0)</li>
+                </ul>
+            </li>
+            <li><strong>Data Logging:</strong> Simulink time series outputs visualized in MATLAB</li>
+        </ul>
 
-      <h2>References</h2>
-      <ul>
-        <li><em>Control Systems Engineering</em> – Nise</li>
-        <li>MathWorks Simulink & PID Controller Documentation</li>
-        <li>Personal tuning logs and Simulink simulation outputs</li>
-      </ul>
+        <h2>Results & Analysis</h2>
+        <ul>
+            <li><strong>Set A (P = 2, I = 0.2, D = 0.4):</strong> Settled within ±1° by ~25 seconds; showed balanced
+                response with minimal overshoot.</li>
+            <li><strong>Set B (P = 3, I = 0.8, D = 0.5):</strong> Faster rise time with some overshoot; still achieved
+                steady-state within target window.</li>
+            <li><strong>Set C (P = 1, I = 0, D = 0):</strong> Persistent steady-state error (~20°); no integral action
+                meant disturbance was not rejected.</li>
+        </ul>
+        <p>
+            A MATLAB overlay compared all three controller responses. The system’s transient and steady-state behaviors
+            were visualized and confirmed expected theoretical effects of PID term adjustments.
+        </p>
 
-    </div> <!-- closes .container -->
-  </main>
+        <h2>Discussion</h2>
+        <ul>
+            <li>Proportional gain improves responsiveness but can induce overshoot.</li>
+            <li>Integral gain is essential to eliminate bias under constant torque disturbance.</li>
+            <li>Derivative gain stabilizes transient behavior and reduces oscillations.</li>
+            <li>The observed results matched classic PID controller theory and demonstrated direct control over pitch
+                dynamics.</li>
+        </ul>
+
+        <h2>Conclusions</h2>
+        <ul>
+            <li>All test objectives were met: the pitch system was modeled, stabilized, and characterized across
+                multiple configurations.</li>
+            <li>Simulink and MATLAB provided effective tools for rapid prototyping, testing, and visualization.</li>
+            <li>This project serves as a foundation for future work in multi-axis control or model-based design
+                validation.</li>
+        </ul>
+
+        <h2>Appendices</h2>
+        <ul>
+            <li>Simulink block diagram (architecture screenshot)</li>
+            <li>MATLAB script for PID overlay plot</li>
+            <li>Expanded response plots with labeled conditions</li>
+            <li>Glossary: PID terms, plant equation, disturbance explanation</li>
+        </ul>
+
+        <h2>References</h2>
+        <ul>
+            <li><em>Control Systems Engineering</em> – Nise</li>
+            <li>MathWorks Simulink & PID Controller Documentation</li>
+            <li>Personal tuning logs and Simulink simulation outputs</li>
+        </ul>
+
+        </div> <!-- closes .container -->
+    </main>
 </body>
-</html>
 
+</html>
