@@ -56,6 +56,24 @@
                 <p>
                   Below, Figure 1 is used from <em>The Illustrated Encyclopedia of the World’s Modern Military Aircraft</em> as a starting point to determine and solve for many of the variables needed.
                 </p>
+                <img src="/Images/schematic.png" alt="AH-1 Cobra Schematic" width="600">
+                <h3>AH-1 Cobra Key Specifications</h3>
+                    <ul>
+                    <li><strong>Crew:</strong> 2 (Pilot and Co-pilot/Gunner)</li>
+                    <li><strong>Fuselage Length:</strong> 13.5 m</li>
+                    <li><strong>Width:</strong> 3.15 m</li>
+                    <li><strong>Height:</strong> 4.11 m</li>
+                    <li><strong>Empty Weight:</strong> 2,635 kg</li>
+                    <li><strong>Max Takeoff Weight (MTOW):</strong> 4,309 kg</li>
+                    <li><strong>Main Rotor Diameter:</strong> 13.4 m</li>
+                    <li><strong>Powerplant:</strong> 1 × Lycoming T53-L-13 (820 kW)</li>
+                    <li><strong>Max Speed:</strong> 276 km/h</li>
+                    <li><strong>Range:</strong> 570 km</li>
+                    <li><strong>Service Ceiling:</strong> 3,500 m</li>
+                    <li><strong>Climb Rate:</strong> 6.2 m/s</li>
+                    <li><strong>Typical Armament:</strong> Miniguns, grenade launchers, 70mm rockets, and 20mm cannon</li>
+                    </ul>
+
               </section>
               <section>
                 <p>
@@ -271,17 +289,6 @@
 
 
         <p>
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
             INSERT SIMULINK BLOCK PICTURES
         </p>
 
@@ -289,7 +296,7 @@
 
         </p>
         <p>
-            Rearranging for θ″ gives the plant equation used in simulation. In the Simulink model, this was implemented
+            Solving for θ″ gives the plant equation used in simulation. In the Simulink model, this was implemented
             using two integrators in series to simulate angular velocity and position from torque input. This forms the
             core dynamic system, or "plant," which receives both controller output and external disturbances (e.g.,
             simulated wind torque).
