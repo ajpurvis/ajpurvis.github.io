@@ -19,97 +19,121 @@
 
             <h2>Executive Summary</h2>
             <p>
-                Modeled a second-order pitch dynamic system for an AH-1 Cobra using Simulink. Designed and tested PID
-                controllers to stabilize pitch angle under command inputs and simulated wind disturbance. Compared
-                multiple control configurations and visualized their stability, transient behavior, and steady-state
-                error. Demonstrated the importance of proportional, integral, and derivative contributions.
-            </p>
-
-            <h2>Introduction</h2>
-            <p>
-                This equation represents angular acceleration (θ″) resulting from net torque (<em>\∑τ</em>) applied to a
-                rigid body, divided by its moment of inertia (<em>I</em>). It is derived from Newton’s Second Law for
-                rotational systems:
-            </p>
-            <p class="equation">
-            <div style="text-align: center; font-size: 1.25rem; margin: 1rem 0;">
-                <em>∑τ</em> = <em>I</em> · θ″
-            </div>
-
-            <p style="text-align: center; font-style: italic;">
-                Here, <em>τ</em> is the net torque acting on the body. In this simulation, we assume it to be a single
-                applied torque <em>M</em> for simplicity.
-            </p>
-
-            <div style="text-align: center; font-size: 1.25rem; margin: 1rem 0;">
-                <p><em>∑τ</em> = <em>M</em> − <em>D</em>·<em>θ′</em> − <em>K</em>·<em>θ</em></p>
-            </div>
-            <div style="text-align: center; font-size: 1.25rem; margin: 1rem 0;">
-                <p><em>M</em> − <em>D</em>θ′ − <em>K</em>θ = <em>I</em>θ″</p>
-              </div>
-            <p style="text-align: center; font-style: italic;">
-                The net torque <em>τ</em> is composed of an input torque <em>M</em> from the pilot (via control
-                surfaces), counteracted by damping torque <em>Dθ′</em> and stiffness torque <em>Kθ</em>. This models the
-                aircraft's rotational response more realistically.
-            </p>
-            <div style="text-align: center; font-size: 1.25rem; margin: 1rem 0;">
-                <p>⇒ θ″ = ( <em>M</em> − <em>D</em>θ′ − <em>K</em>θ ) / <em>I</em></p>
-              </div>
-              
+                Modeled a second-order pitch dynamic system for an AH-1 Cobra using Simulink. Designed and tested PID controllers to stabilize pitch axis rotation under command inputs and simulated wind disturbance. Compared multiple control configurations and visualized their stability, transient behavior, and steady-state error. Demonstrated the importance of proportional, integral, and derivative contributions.
+              </p>
+            
+              <h2>Introduction</h2>
               <p>
-                Now that we have solved for angular acceleration (θ″), the following variables must be determined:
+                Net torque (∑τ), which is derived from Newton’s Second Law for rotational systems, is defined by the product of angular acceleration (θ″) and a rigid body’s moment of inertia (I):
               </p>
-              
-              <ul>
-                <li><strong>M</strong> — Total applied torque from the pilot</li>
-                <li><strong>D</strong> — Damping coefficient, modeling aerodynamic resistance</li>
-                <li><strong>K</strong> — Rotational stiffness, resisting pitch angle displacement</li>
-                <li><strong>I</strong> — Moment of inertia about the pitch axis</li>
-              </ul>
-        <p>
-            The Parallel Axis Theorem can be used to determine the moment of inertia (I) of a rigid body
-            about any axis, given its moment of inertia <em>I<sub>com</sub></em> about a parallel axis through its
-            center of mass.
-            The relationship is defined by:
-        </p>
-
-        <div style="text-align: center; font-size: 1.25rem; margin: 1rem 0;">
-            I = I<sub>com</sub> + m · h²
-        </div>
-
-        <p>
-            This theorem is especially helpful when the axis of rotation does not pass through the object’s center of
-            mass —
-            a common scenario in rotary systems.
-        </p>
-        <p>
-        We can assume:
-        <ul>
-            <li>I<sub>com</sub> ≈ 28,000 kg·m² (estimated for the AH-1 Cobra)</li>
-            <li>m = 2,635 kg (empty mass)</li>
-            <li>h = 1.5 m (approximate offset distance from center of mass)</li>
-        </ul>
-        <p>
-            m = 2,635 kg (empty mass)
-            Light helicopters like the Robinson R44 hold around 31.6 gallons in the main fuel tank and 18.5 gallons in the auxiliary fuel tank.
-        <p>
-            <p>
-                However, inertia (<em>I</em>) can be more closely approximated. Figure 1 below gives the specifications for the AH-1G HueyCobra.
-              </p>
-              
-              <p>
-                To estimate the helicopter’s moment of inertia about the pitch axis, we assume the fuselage behaves like a uniform rod rotating about a point near the tail (offset from center of mass). Using the Parallel-Axis Theorem:
-              </p>
-              
+            
               <div style="text-align: center; font-size: 1.25rem; margin: 1rem 0;">
-                <em>I</em> = <em>I<sub>com</sub></em> + <em>m</em><em>h</em><sup>2</sup>
+                ∑τ = θ″ · I
               </div>
-              <div>
+            
+              <p>
+                The net torque (∑τ) is composed of an input torque (M), counteracted by damping torque (D · θ′) and stiffness torque (K · θ):
+              </p>
+            
+              <div style="text-align: center; font-size: 1.25rem; margin: 1rem 0;">
+                ∑τ = M − D · θ′ − K · θ
+              </div>
+            
+              <p>
+                Substituting into the angular acceleration equation yields:
+              </p>
+            
+              <div style="text-align: center; font-size: 1.25rem; margin: 1rem 0;">
+                θ″ = (M − D · θ′ − K · θ) / I
+              </div>
+            
+              <p>
+                • With angular acceleration (θ″) fully defined in terms of torque, damping, stiffness, and inertia, the system’s response can be characterized under varying control inputs and disturbances.
+              </p>
+            
+              <h2>Parallel Axis Theorem</h2>
+              <p>
+                The Parallel Axis Theorem can be used to determine the moment of inertia (I) of a rigid body about any axis, given its moment of inertia about a parallel axis through its center of mass (I<sub>com</sub>). The relationship is defined by:
+              </p>
+            
+              <div style="text-align: center; font-size: 1.25rem; margin: 1rem 0;">
+                I = I<sub>com</sub> + m · h²
+              </div>
+            
+              <p>
+                This theorem is particularly useful in cases where the axis of rotation does not intersect the object’s center of mass — a condition frequently encountered in rotary-wing systems.
+              </p>
+            
+              <p>
+                Below, Figure 1 (adapted from <em>The Illustrated Encyclopedia of the World’s Modern Military Aircraft</em>) is used as a reference to solve for many of the parameters involved in the pitch dynamics model.
+              </p>
+            
+              <p style="text-align: center; font-style: italic; margin-top: 2rem;">
+                <!-- Replace this line with an actual <img> tag for the AH-1 Cobra diagram -->
+                INSERT COBRA IMAGE HERE
+              </p>
+            </section>
                 <p>
-                    While the empty wieght was given, a reasonable estimate can be made for the AH-1 Cobra. Light helicopters like the Robinson 
-                    R44 hold around 31.6 gallons in the main fuel tank and 18.5 gallons in the auxiliary fuel tank. Assuming an appoxiamate 35 gallons
-                    the additional 368 kg would result in a new total mass of 3003 kg.
-                </p>
+                    The table below outlines a representative full combat load configuration for the AH-1 Cobra, operating near its maximum takeoff weight (MTOW) of 4,309 kg. This estimate includes a complete fuel load, pilot and gunner, and a full armament suite typical of heavy combat missions. While actual configurations may vary depending on mission profile and environmental conditions, this breakdown provides a realistic upper limit for operational weight planning.
+                  </p>
+                  
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Component</th>
+                        <th>Quantity</th>
+                        <th>Estimated Weight (kg)</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><strong>Empty Weight</strong></td>
+                        <td>–</td>
+                        <td><strong>2635</strong></td>
+                      </tr>
+                      <tr>
+                        <td>Fuel (JP-4, ~375 gal)</td>
+                        <td>Full tank</td>
+                        <td>635</td>
+                      </tr>
+                      <tr>
+                        <td>Pilot + Gunner</td>
+                        <td>2 × 90 kg</td>
+                        <td>180</td>
+                      </tr>
+                      <tr>
+                        <td>M129 40 mm grenade launcher (w/ ammo)</td>
+                        <td>1</td>
+                        <td>130</td>
+                      </tr>
+                      <tr>
+                        <td>7.62 mm Minigun (w/ ammo)</td>
+                        <td>1</td>
+                        <td>75</td>
+                      </tr>
+                      <tr>
+                        <td>M200 Rocket Pods (19 × 2.75" rockets each)</td>
+                        <td>2</td>
+                        <td>400</td>
+                      </tr>
+                      <tr>
+                        <td>XM35 20 mm Cannon Subsystem</td>
+                        <td>1</td>
+                        <td>320</td>
+                      </tr>
+                      <tr>
+                        <td><strong>Total Estimated Weight</strong></td>
+                        <td>–</td>
+                        <td><strong>4375</strong></td>
+                      </tr>
+                      <tr>
+                        <td><em>Max Takeoff Weight (MTOW)</em></td>
+                        <td>–</td>
+                        <td><em>4309</em></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  
               <p>With the parameters known, the total inertial can be estimated.
                 Where:
                 <ul>
