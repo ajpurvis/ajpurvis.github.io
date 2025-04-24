@@ -38,11 +38,15 @@
                   Inserting the net torque into the equation for angular acceleration gives:
                 </p>
                 <div class="equation">&theta;&Prime;&Prime; = (M − D&theta;&Prime; − K&theta;) / I</div>
-              
+                
+                
+                <h3>Deriving System Parameters</h3>
                 <p>
-                  With angular acceleration (&theta;&Prime;&Prime;) fully defined in terms of torque, damping, stiffness, and inertia, the system’s response can be characterized under varying control inputs and disturbances.
+                  With angular acceleration (&theta;&Prime;&Prime;) fully defined in terms of torque, damping, stiffness, and inertia, the system’s response can be characterized under varying control inputs and disturbances. These terms are defined below so they can be calculated using known values. 
                 </p>
-              
+                <h4>
+                    Inertia (I)
+                </h4>
                 <p>
                   The Parallel Axis Theorem can be used to determine the moment of inertia (I) of a rigid body about any axis, given its moment of inertia about a parallel axis through its center of mass (I<sub>com</sub>). The relationship is defined by:
                 </p>
@@ -118,7 +122,7 @@
                 </p>
               
                 <section>
-  <h2>Deriving System Parameters</h2>
+  <h4>Stiffness and Damping</h4>
   <p>
     Returning to the governing equation of the plant model, expressions defining the damping coefficient (<strong>D</strong>) and the stiffness coefficient (<strong>K</strong>) can be derived as follows:
   </p>
@@ -133,7 +137,6 @@
     <li><code>K = ω<sub>n</sub><sup>2</sup> * I</code></li>
   </ul>
 
-  <h3>Model Assumptions</h3>
   <ul>
     <li><strong>Damping ratio (ζ)</strong> = 0.7
       <ul>
@@ -152,13 +155,11 @@
     <li><strong>K</strong> = 4 × 12,182 ≈ <strong>48,728 N·m/rad</strong></li>
   </ul>
 </section>
-
 <section>
-  <h2>Disturbance Input (Upward Gust)</h2>
+  <h4>Disturbance Input (Upward Gust)</h4>
   <p>
-    The helicopter experiences a 25 m/s upward gust acting 1.219 m forward of the center of gravity for 5 seconds.
+    The helicopter experiences a 25 m/s upward gust acting 1.219 m forward of the center of gravity for 5 seconds. The resulting torque generated from this force is solved using the Dynamic Pressure Equation:
   </p>
-  <h4>Dynamic Pressure Equation</h4>
   <pre><code>F = ½ × ρ × V² × A × C<sub>D</sub></code></pre>
   <ul>
     <li>ρ ≈ 1.225 kg/m³</li>
