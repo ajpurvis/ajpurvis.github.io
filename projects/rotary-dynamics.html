@@ -203,16 +203,40 @@ $$
   <p>
     Returning to the governing equation of the plant model, expressions defining the damping coefficient (<strong>D</strong>) and the stiffness coefficient (<strong>K</strong>) can be derived as follows:
   </p>
-  <pre><code>I * θ'' + D * θ' + K * θ = M(t)</code></pre>
-  <p>This equation represents the sum of torques acting on a rigid body: inertial, damping, and stiffness torques. Dividing both sides by the moment of inertia (I):</p>
-  <pre><code>θ'' + (D/I) * θ' + (K/I) * θ = M(t)/I</code></pre>
-  <p>This yields a canonical second-order system equation:</p>
-  <pre><code>θ'' + 2 * ζ * ω<sub>n</sub> * θ' + ω<sub>n</sub><sup>2</sup> * θ = M(t)/I</code></pre>
-  <p>By comparing coefficients, we get:</p>
-  <ul>
-    <li><code>D = 2 * ζ * ω<sub>n</sub> * I</code></li>
-    <li><code>K = ω<sub>n</sub><sup>2</sup> * I</code></li>
-  </ul>
+<div style="text-align: center; margin: 1rem 0;">
+  \[
+  I \cdot \ddot{\theta} + D \cdot \dot{\theta} + K \cdot \theta = M(t)
+  \]
+</div>
+<p>
+  This equation represents the sum of torques acting on a rigid body: inertial, damping, and stiffness torques. Dividing both sides by the moment of inertia (\( I \)):
+</p>
+
+<div style="text-align: center; margin: 1rem 0;">
+  \[
+  I \cdot \ddot{\theta} + D \cdot \dot{\theta} + K \cdot \theta = M(t)
+  \]
+  \[
+  \ddot{\theta} + \frac{D}{I} \cdot \dot{\theta} + \frac{K}{I} \cdot \theta = \frac{M(t)}{I}
+  \]
+</div>
+
+<p>
+  This yields a canonical second-order system equation:
+</p>
+
+<div style="text-align: center; margin: 1rem 0;">
+  \[
+  \ddot{\theta} + 2 \zeta \omega_n \cdot \dot{\theta} + \omega_n^2 \cdot \theta = \frac{M(t)}{I}
+  \]
+</div>
+
+<p>By comparing coefficients, we get:</p>
+
+<ul>
+  <li>\( D = 2 \zeta \omega_n I \)</li>
+  <li>\( K = \omega_n^2 I \)</li>
+</ul>
 
   <ul>
     <li><strong>Damping ratio (ζ)</strong> = 0.7
