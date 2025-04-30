@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Rotary Dynamics</title>
     <link rel="stylesheet" href="/style.css" />
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
 </head>
 
 <body>
@@ -26,18 +30,38 @@
                 <p>
                   Net Torque (&sum;&tau;), which is derived from Newton’s Second Law for rotational systems, is defined by the product of angular acceleration (&theta;&Prime;&Prime;) and a rigid body’s moment of inertia (I):
                 </p>
-                <div class="equation">&theta;&Prime;&Prime; = &sum;&tau; / I</div>
-                <div class="equation">&sum;&tau; = &theta;&Prime;&Prime; &times; I</div>
-              
-                <p>
-                  The net torque (&sum;&tau;) is composed of an input torque (M), counteracted by damping torque (D&theta;&Prime;) and stiffness torque (K&theta;):
-                </p>
-                <div class="equation">&sum;&tau; = M − D&theta;&Prime; − K&theta;</div>
-              
-                <p>
-                  Inserting the net torque into the equation for angular acceleration gives:
-                </p>
-                <div class="equation">&theta;&Prime;&Prime; = (M − D&theta;&Prime; − K&theta;) / I</div>
+<p>
+  The angular acceleration is derived from Newton’s second law for rotational systems:
+</p>
+
+$$
+\ddot{\theta} = \frac{\sum \tau}{I}
+$$
+
+<p>
+  Rearranging gives the net torque:
+</p>
+
+$$
+\sum \tau = \ddot{\theta} \times I
+$$
+
+<p>
+  The net torque (\(\sum \tau\)) is composed of an input torque (M), counteracted by damping torque (\(D\dot{\theta}\)) and stiffness torque (\(K\theta\)):
+</p>
+
+$$
+\sum \tau = M - D\dot{\theta} - K\theta
+$$
+
+<p>
+  Inserting the net torque into the equation for angular acceleration gives:
+</p>
+
+$$
+\ddot{\theta} = \frac{M - D\dot{\theta} - K\theta}{I}
+$$
+
                 
                 
                 <h3>Deriving System Parameters</h3>
