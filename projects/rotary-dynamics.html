@@ -117,46 +117,82 @@ $$
                 <p>
                   The height and width are given, the only quantity remaining is mass. The table below outlines a representative full combat load configuration for the AH-1 Cobra, operating near its maximum takeoff weight (MTOW) of 4,309 kg. This estimate includes a complete fuel load, pilot and gunner, and a full armament suite typical of heavy combat missions. While actual configurations may vary depending on mission profile and environmental conditions, this breakdown provides a realistic upper limit for operational weight planning.
                 </p>
-              
-                <table>
-                    <thead>
-                      <tr><th>Component</th><th>Estimated Weight (kg)</th></tr>
-                    </thead>
-                    <tbody>
-                      <tr><td>Empty Weight</td><td>2635</td></tr>
-                      <tr><td>Fuel (JP-4, ~375 gal)</td><td>635</td></tr>
-                      <tr><td>Pilot + Gunner</td><td>180</td></tr>
-                      <tr><td>Armament Loadout (Minigun, Grenade Launcher, Rocket Pods, 20mm Cannon)</td><td>925</td></tr>
-                      <tr><td>XM35 20 mm Cannon Subsystem (w/ ammo)</td><td>320</td></tr>
-                      <tr><td><strong>Total Estimated Weight</strong></td><td><strong>4375</strong></td></tr>
-                      <tr><td><em>Max Takeoff Weight (MTOW)</em></td><td><em>4309</em></td></tr>
-                    </tbody>
-                  </table>
-                  
+
+<table class="weight-table">
+  <caption>Estimated AH-1 Cobra Combat Load Breakdown</caption>
+  <thead>
+    <tr>
+      <th>Component</th>
+      <th>Estimated Weight (kg)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Empty Weight</td>
+      <td>2635</td>
+    </tr>
+    <tr>
+      <td>Fuel (JP-4, ~375 gal)</td>
+      <td>635</td>
+    </tr>
+    <tr>
+      <td>Pilot + Gunner</td>
+      <td>180</td>
+    </tr>
+    <tr>
+      <td>Armament Loadout (Minigun, Grenade Launcher, Rocket Pods, 20mm Cannon)</td>
+      <td>925</td>
+    </tr>
+    <tr>
+      <td>XM35 20 mm Cannon Subsystem (w/ ammo)</td>
+      <td>320</td>
+    </tr>
+    <tr>
+      <td>Total Estimated Weight</td>
+      <td>4375</td>
+    </tr>
+    <tr class="note-row">
+      <td colspan="2">Max Takeoff Weight (MTOW): 4309 kg</td>
+    </tr>
+  </tbody>
+</table>
+
               <p>
                 With the known variables, the center of mass inertia can now be calculated:
               </p>
-                <div class="equation">
-                  I<sub>com</sub> = (1/12) &middot; 4309 &middot; (3.15<sup>2</sup> + 4.11<sup>2</sup>) = 9628 kg&middot;m<sup>2</sup>
-                </div>
-              
-                <p>
-                  To apply the Parallel Axis Theorem and estimate the helicopter's total moment of inertia, we must define the offset distance <em>h</em> — the distance between the helicopter’s CG and the axis of rotation. In this case, the axis of rotation is the pitch axis through the main rotor mast.
-                </p>
-                <p>
-                  As an exact center of gravity or mast schematic for the AH-1 Cobra is not publicly available, <em>h</em> is approximated based on fuselage length proportions. We assume the rotor mast sits at 55% of the fuselage length (measured from the tail), and the center of gravity at 45%. This yields:
-                </p>
-              
-                <div class="equation">
-                  h = |0.55 − 0.45| &times; 13.5 m ≈ 1.35 m
-                </div>
-              
-                <p>With the parameters known, the total inertia can be estimated:</p>
+=
+<div style="font-family: Arial, sans-serif; line-height: 1.6; max-width: 800px; margin: auto; padding: 20px;">
+
+  <div style="text-align: center; margin: 1rem 0;">
+    \[
+    I_{\text{com}} = \frac{1}{12} \cdot 4309 \cdot (3.15^2 + 4.11^2) = 9628 \ \text{kg} \cdot \text{m}^2
+    \]
+  </div>
+
+  <p>
+    To apply the Parallel Axis Theorem and estimate the helicopter's total moment of inertia, we must define the offset distance \( h \) — the distance between the helicopter’s CG and the axis of rotation. In this case, the axis of rotation is the pitch axis through the main rotor mast.
+  </p>
+
+  <p>
+    As an exact center of gravity or mast schematic for the AH-1 Cobra is not publicly available, \( h \) is approximated based on fuselage length proportions. We assume the rotor mast sits at 55% of the fuselage length (measured from the tail), and the center of gravity at 45%. This yields:
+  </p>
+
+  <div style="text-align: center; margin: 1rem 0;">
+    \[
+    h = \left| 0.55 - 0.45 \right| \times 13.5 \ \text{m} \approx 1.35 \ \text{m}
+    \]
+  </div>
+
+  <p>With the parameters known, the total inertia can be estimated:</p>
              
-                <div class="equation">
-                  I = I<sub>com</sub> + m &middot; h<sup>2</sup><br>
-                  I = 6707 + 3003 &times; (1.35)<sup>2</sup> = 12,182 kg&middot;m<sup>2</sup>
-                </div>
+<div style="text-align: center; margin: 1rem 0;">
+  \[
+  I = I_{\text{com}} + m \cdot h^2
+  \]
+  \[
+  I = 6707 + 3003 \cdot (1.35)^2 = 12{,}182 \ \text{kg} \cdot \text{m}^2
+  \]
+</div>
               
                 <p>
                   This value represents the total moment of inertia about the pitch axis, accounting for both the distribution of fuselage mass relative to the rotor axis and the offset of the rotational axis from the center of mass. It combines the intrinsic resistance to rotation (about the CG) with the additional inertia introduced by the spatial separation between the rotor mast and the helicopter’s center of gravity.
