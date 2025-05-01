@@ -101,7 +101,6 @@ th {
   color: #00ffff;
 }
 
-<style>
 /* ───── Weight-table polish ──────────────────────────────── */
 .weight-table{
   /* keep width rules if you like */
@@ -144,5 +143,3 @@ th {
   font-weight:600;
   margin:0 0 0.4rem 0;           /* pull caption closer      */
 }
-</style>
-
