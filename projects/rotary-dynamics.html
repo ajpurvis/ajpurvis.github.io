@@ -30,36 +30,40 @@
                 <p>
                   Net Torque (\(\sum \tau\)), which is derived from Newton’s Second Law for rotational systems, is defined by the product of angular acceleration (&theta;&Prime;&Prime;) and a rigid body’s moment of inertia (I):
                 </p>
+                
+$$
+ {\sum \tau} = \ddot{\theta}{I}
+$$
 <p>
-  The angular acceleration is derived from Newton’s second law for rotational systems:
+ Using this, angular acceleration can be isolated.
 </p>
 
 $$
 \ddot{\theta} = \frac{\sum \tau}{I}
 $$
 
-<p>
-  Rearranging gives the net torque:
-</p>
-
-$$
-\sum \tau = \ddot{\theta} \times I
-$$
 
 <p>
-  The net torque (\(\sum \tau\)) is composed of an input torque (M), counteracted by damping torque (\(D\dot{\theta}\)) and stiffness torque (\(K\theta\)):
+    To solve for angular acceleration, torque and moment of inertia must be expressed in terms of measurable or estimated variables.
+    The net torque (\(\sum \tau\)) can be defined as an input torque (M), counteracted by damping torque (D) and stiffness torque (K):
 </p>
 
 $$
 \sum \tau = M - D\dot{\theta} - K\theta
 $$
-
+                
+<p>
+  Using the Parallel Axis Theorem, the moment of inertia can be expanded into a form that accounts for mass distribution relative to the rotation axis, yielding a solvable expression in terms of known geometry and mass.
+</p>
+$$
+I = I_{\text{com}} + m \cdot h^2 
+$$
 <p>
   Inserting the net torque into the equation for angular acceleration gives:
 </p>
 
 $$
-\ddot{\theta} = \frac{M - D\dot{\theta} - K\theta}{I}
+\ddot{\theta} = \frac{M - D\dot{\theta} - K\theta}{I_{\text{com}} + m \cdot h^2}
 $$
 
                 
@@ -223,7 +227,7 @@ $$
     <li>A = 2.5 m²</li>
     <li>C<sub>D</sub> = 1.2</li>
     <li>F ≈ 459.4 N</li>
-    <li>Torque τ = 459.4 × 1.219 ≈ <strong>560.2 N·m</strong></li>
+    <li>Torque = 459.4 × 1.219 ≈ <strong>560.2 N·m</strong></li>
   </ul>
  <section>
   <p>
