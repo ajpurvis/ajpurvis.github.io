@@ -394,79 +394,44 @@
     <!-- ROOT NODE -->
 
     <div
-      class="node root-node"
-      id="intro"
-      data-title="Introduction"
-    >
+  class="node root-node"
+  id="intro"
+  data-title="Introduction"
+  data-video="../videos/introduction.mp4"
+>
+  <div class="node-title">Introduction</div>
+  <div class="node-subtitle">2:14</div>
+</div>
 
-      <div class="node-title">
-        Introduction
-      </div>
+<div
+  class="node"
+  id="work"
+  data-title="Work"
+  data-video="../videos/work.mp4"
+>
+  <div class="node-title">Work</div>
+  <div class="node-subtitle">1:32</div>
+</div>
 
-      <div class="node-subtitle">
-        2:14
-      </div>
+<div
+  class="node"
+  id="personal"
+  data-title="Personal"
+  data-video="../videos/personal.mp4"
+>
+  <div class="node-title">Personal</div>
+  <div class="node-subtitle">1:48</div>
+</div>
 
-    </div>
-
-
-    <!-- CHILD NODE 1 -->
-
-    <div
-      class="node"
-      id="work"
-      data-title="Work"
-    >
-
-      <div class="node-title">
-        Work
-      </div>
-
-      <div class="node-subtitle">
-        1:32
-      </div>
-
-    </div>
-
-
-    <!-- CHILD NODE 2 -->
-
-    <div
-      class="node"
-      id="personal"
-      data-title="Personal"
-    >
-
-      <div class="node-title">
-        Personal
-      </div>
-
-      <div class="node-subtitle">
-        1:48
-      </div>
-
-    </div>
-
-
-    <!-- CHILD NODE 3 -->
-
-    <div
-      class="node"
-      id="interests"
-      data-title="Interests"
-    >
-
-      <div class="node-title">
-        Interests
-      </div>
-
-      <div class="node-subtitle">
-        1:15
-      </div>
-
-    </div>
-
-  </main>
+<div
+  class="node"
+  id="interests"
+  data-title="Interests"
+  data-video="../videos/interests.mp4"
+>
+  <div class="node-title">Interests</div>
+  <div class="node-subtitle">1:15</div>
+</div>
 
 
   <!-- =======================================================
@@ -511,9 +476,14 @@
 
       </div>
 
-      <div class="video-placeholder">
-        Video will play here
-      </div>
+<video
+  id="videoPlayer"
+  controls
+  playsinline
+  style="width: 100%; border-radius: 12px;"
+>
+  Your browser does not support video playback.
+</video>
 
     </div>
 
@@ -627,23 +597,33 @@
        OPEN VIDEO
     ------------------------------------------------------- */
 
-    document
-      .querySelectorAll(".node")
-      .forEach(node => {
+/* -------------------------------------------------------
+   OPEN VIDEO
+------------------------------------------------------- */
 
-        node.addEventListener(
-          "click",
-          () => {
+const videoPlayer = document.getElementById("videoPlayer");
 
-            modalTitle.textContent =
-              node.dataset.title;
+document
+  .querySelectorAll(".node")
+  .forEach(node => {
 
-            modal.classList.add("open");
+    node.addEventListener("click", () => {
 
-          }
-        );
+      // Change modal title to match clicked node
+      modalTitle.textContent = node.dataset.title;
 
-      });
+      // Load the video assigned to that node
+      videoPlayer.src = node.dataset.video;
+
+      // Open the modal
+      modal.classList.add("open");
+
+      // Start playing
+      videoPlayer.play();
+
+    });
+
+  });
 
 
     /* -------------------------------------------------------
